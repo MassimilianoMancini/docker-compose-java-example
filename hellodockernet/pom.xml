@@ -39,6 +39,50 @@
     </dependency>
   </dependencies>
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>io.fabric8</groupId>
+          <artifactId>docker-maven-plugin</artifactId>
+          <version>0.36.1</version>
+          <configuration>
+            <autoCreateCustomNetworks>true</autoCreateCustomNetworks>
+            <images>
+              <image>
+                <alias>app</alias>
+                <external>
+                  <type>compose</type>
+                  <basedir>${project.basedir}</basedir>
+                  <composeFile>docker-compose.yaml</composeFile>
+                </external>
+                <run>
+                  <wait>
+                    <log>Hello World!</log>
+                    <time>1000000</time>
+                  </wait>
+                </run>
+              </image>
+            </images>
+          </configuration>
+          <executions>
+            <execution>
+              <id>docker-build-image</id>
+              <phase>package</phase>
+              <goals>
+                <goal>build</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>docker-verify</id>
+              <goals>
+                <goal>start</goal>
+                <goal>stop</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
@@ -71,36 +115,6 @@
           <plugin>
             <groupId>io.fabric8</groupId>
             <artifactId>docker-maven-plugin</artifactId>
-            <version>0.36.1</version>
-            <configuration>
-              <autoCreateCustomNetworks>true</autoCreateCustomNetworks>
-              <images>
-                <image>
-                  <alias>app</alias>
-                  <external>
-                    <type>compose</type>
-                    <basedir>${project.basedir}</basedir>
-                    <composeFile>docker-compose.yaml</composeFile>
-                  </external>
-                </image>
-              </images>
-            </configuration>
-            <executions>
-              <execution>
-                <id>docker-build-image</id>
-                <phase>package</phase>
-                <goals>
-                  <goal>build</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>docker-verify</id>
-                <goals>
-                  <goal>start</goal>
-                  <goal>stop</goal>
-                </goals>
-              </execution>
-            </executions>
           </plugin>
         </plugins>
       </build>
