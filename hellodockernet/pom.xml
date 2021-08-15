@@ -76,44 +76,12 @@
               <autoCreateCustomNetworks>true</autoCreateCustomNetworks>
               <images>
                 <image>
-                  <name>java-mongo-hello-world</name>
-                  <build>
-                    <contextDir>${project.basedir}</contextDir>
-                  </build>
-                  <run>
-                    <network>
-                      <mode>custom</mode>
-                      <name>my-network</name>
-                    </network>
-                    <wait>
-                      <log>Hello World!</log>
-                      <time>3000</time>
-                    </wait>
-                    <dependsOn>
-                      <container>mongo</container>
-                    </dependsOn>
-                  </run>
-                </image>
-                <image>
-                  <name>mongo</name>
-                  <run>
-                    <network>
-                      <mode>custom</mode>
-                      <name>my-network</name>
-                      <alias>mongodb</alias>
-                    </network>
-                    <ports>
-                      <port>mongo.port:27017</port>
-                    </ports>
-                    <wait>
-                      <http>
-                        <url>http://localhost:${mongo.port}</url>
-                        <method>GET</method>
-                        <status>200</status>
-                      </http>
-                      <time>3000</time>
-                    </wait>
-                  </run>
+                  <alias>app</alias>
+                  <external>
+                    <type>compose</type>
+                    <basedir>${project.basedir}</basedir>
+                    <composeFile>docker-compose.yaml</composeFile>
+                  </external>
                 </image>
               </images>
             </configuration>
