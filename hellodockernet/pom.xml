@@ -58,7 +58,7 @@
                 <run>
                   <wait>
                     <log>Hello World!</log>
-                    <time>1000000</time>
+                    <time>10000</time>
                   </wait>
                 </run>
               </image>
